@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import usaflag from "../assets/united-states.png";
 import abflag from "../assets/antigua-and-barbuda.png";
+import useFetch from "../hooks/useFetch";
 
 const UniversityList = () => {
   const [universities, setUniversities] = useState([]);
@@ -14,20 +14,11 @@ const UniversityList = () => {
   const [toggleButton2, setToggleButton2] = useState(false);
   const [secondMinUniversities, setSecondMinUniversities] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://universities.hipolabs.com/search"
-        );
-        setUniversities(response.data);
-        setFilteredUniversities(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const data = useFetch("http://universities.hipolabs.com/search");
 
-    fetchData();
+  useEffect(() => {
+    setUniversities(data);
+    setFilteredUniversities(data);
   }, []);
 
   const handleSearch = (e) => {
