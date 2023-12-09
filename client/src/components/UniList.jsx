@@ -14,7 +14,7 @@ const UniversityList = () => {
   const [toggleButton2, setToggleButton2] = useState(false);
   const [secondMinUniversities, setSecondMinUniversities] = useState({});
 
-  const data = useFetch("https://universities.hipolabs.com/search");
+  const data = useFetch("http://universities.hipolabs.com/search");
 
   useEffect(() => {
     if(data){
