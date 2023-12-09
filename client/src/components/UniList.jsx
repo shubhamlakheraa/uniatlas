@@ -17,9 +17,12 @@ const UniversityList = () => {
   const data = useFetch("http://universities.hipolabs.com/search");
 
   useEffect(() => {
-    setUniversities(data);
-    setFilteredUniversities(data);
-  }, []);
+    if(data){
+      setUniversities(data);
+      setFilteredUniversities(data);
+    }
+   
+  }, [data]);
 
   const handleSearch = (e) => {
     const searchCountry = e.target.value.toLowerCase();
@@ -68,6 +71,30 @@ const UniversityList = () => {
     setToggleButton2(true);
   };
 
+
+  let myList = null
+
+  if(data){
+    myList = filteredUniversities.map((uni, index) => (
+      <div
+        key={index}
+        className="flex items-center pl-[2rem] my-[2rem] "
+      >
+        <div className=" mr-5">
+          <span>{index + 1}.</span>
+          <p className="w-[25rem] inline p-2">{uni.name}</p>
+          <p className=" w-[25rem]  text-gray-300 cursor-pointer hover:underline  ">
+            {uni.web_pages}
+          </p>
+        </div>
+
+        <p className="text- text-gray-500">{uni.country}</p>
+      </div>
+    ))
+  }
+  else{
+    myList = <h1 className="ml-4 mt-5">Loading...</h1>
+  }
   return (
     <>
       <div className="flex items-center justify-center">
@@ -140,7 +167,7 @@ const UniversityList = () => {
       </div>
 
       <div className="font-outfit ">
-        <p className="ml-2 text-gray-300">
+        <p className="ml-4 text-gray-300">
           Total Universities {country ? "in " + country.toUpperCase() : ""} :{" "}
           {totalUniversities ? totalUniversities : 9949}
         </p>
@@ -155,7 +182,7 @@ const UniversityList = () => {
           />
         </div>
         <div>
-          {filteredUniversities
+          {/* {filteredUniversities
             ? filteredUniversities.map((uni, index) => (
                 <div
                   key={index}
@@ -172,7 +199,8 @@ const UniversityList = () => {
                   <p className="text- text-gray-500">{uni.country}</p>
                 </div>
               ))
-            : "Loading..."}
+            : "Loading..."} */}
+            {myList}
         </div>
       </div>
     </>
